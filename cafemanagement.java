@@ -14,7 +14,7 @@ public class CafeManagementSystem {
     // MySQL database credentials
     private static final String URL = "jdbc:mysql://localhost:3306/cafe";
     private static final String USER = "root";  
-    private static final String PASSWORD = "kathyaeini@1706";  
+    private static final String PASSWORD = "yourpassword";  
 
     // Method to establish the connection
     public static Connection getConnection() throws SQLException {
