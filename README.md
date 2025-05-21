@@ -1,120 +1,54 @@
 # cafe-management-system-
-package kathyaeini;
+☕ Cafe Management System
+📌 Project Overview
+The Cafe Management System is a simple Java-based console application connected to a MySQL database. It allows café staff to manage customer orders by displaying a live menu, accepting orders, calculating total bills, and storing transaction data in the database.
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+✅ Features
+Displays café menu stored in a MySQL database
 
-public class CafeManagementSystem {
+Accepts multiple item orders from customers
 
-    // MySQL database credentials
-    private static final String URL = "jdbc:mysql://localhost:3306/cafe";
-    private static final String USER = "root";  
-    private static final String PASSWORD = "kathyaeini@1706";  
+Calculates total bill based on item quantity and pricing
 
-    // Method to establish the connection
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
+Records customer order details (name, items, payment method)
 
-    // Method to fetch and display the cafe menu from the database
-    public static Map<Integer, MenuItem> displayCafeMenu() {
-        Map<Integer, MenuItem> menuItems = new HashMap<>();
-        String query = "SELECT item_id, item_name, description, price, available FROM menu";
+Supports basic CRUD structure (create/read for orders and menu)
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+🛠️ Technologies Used
+Java (JDBC for database connection)
 
-            System.out.println("Cafe Menu:");
-            System.out.println("------------------------------------------------");
-            while (rs.next()) {
-                int itemId = rs.getInt("item_id");
-                String itemName = rs.getString("item_name");
-                String description = rs.getString("description");
-                double price = rs.getDouble("price");
-                boolean available = rs.getBoolean("available");
+MySQL (Relational database)
 
-                if (available) {
-                    // Store menu item in the map
-                    menuItems.put(itemId, new MenuItem(itemId, itemName, description, price));
-                    System.out.printf("Item ID: %d | Name: %s | Description: %s | Price: %.2f%n", 
-                            itemId, itemName, description, price);
-                }
-            }
+SQL (Data definition and manipulation)
 
-        } catch (SQLException e) {
-            System.out.println("Error while fetching the cafe menu: " + e.getMessage());
-        }
-        return menuItems;
-    }
+Scanner (Java.util) for console input
 
-    // Method to take orders from the customer
-    public static double takeOrder(Map<Integer, MenuItem> menuItems) {
-        Scanner scanner = new Scanner(System.in);
-        double totalPrice = 0.0;
+🗃️ Database Tables
+menu – stores item details such as item name, description, price, and availability
 
-        while (true) {
-            System.out.print("Enter the Item ID to order (or 0 to finish): ");
-            int itemId = scanner.nextInt();
-            if (itemId == 0) {
-                break;  // Exit the loop if the customer is finished
-            }
-            if (menuItems.containsKey(itemId)) {
-                System.out.print("Enter the quantity: ");
-                int quantity = scanner.nextInt();
-                MenuItem item = menuItems.get(itemId);
-                double priceForThisItem = item.getPrice() * quantity;
-                totalPrice += priceForThisItem;
-                System.out.printf("Added %d x %s to your order. Price: %.2f%n", quantity, item.getItemName(), priceForThisItem);
-            } else {
-                System.out.println("Invalid Item ID. Please try again.");
-            }
-        }
+customer_orders – stores order information including customer name, ordered items, bill amount, and payment method
 
-        return totalPrice;
-    }
+🚀 How to Run
+Set up MySQL and create the cafe database with the provided schema.
 
-    public static void main(String[] args) {
-        // Display the cafe menu
-        Map<Integer, MenuItem> menuItems = displayCafeMenu();
-        
-        // Take the customer's order
-        double totalPrice = takeOrder(menuItems);
-        
-        // Print the total price
-        System.out.printf("Total Price of your order: %.2f%n", totalPrice);
-    }
-}
+Update database credentials in the Java code if necessary.
 
-// MenuItem class to represent an item in the cafe menu
-class MenuItem {
-    private int itemId;
-    private String itemName;
-    private String description;
-    private double price;
+Compile and run the Java program.
 
-    public MenuItem(int itemId, String itemName, String description, double price) {
-        this.itemId = itemId;
-        this.itemName = itemName;
-        this.description = description;
-        this.price = price;
-    }
+Use the console to interact with the system, place orders, and record transactions.
 
-    public int getItemId() {
-        return itemId;
-    }
+🔐 Credentials (Example)
+Username: root
 
-    public String getItemName() {
-        return itemName;
-    }
+Password: your password
 
-    public double getPrice() {
-        return price;
-    }
-}
+(Make sure to secure or replace credentials in production)
+
+📚 Learning Objectives
+Learn basic Java database connectivity using JDBC
+
+Practice SQL DDL and DML commands
+
+Understand menu-driven program development
+
+Get introduced to transaction processing in a retail setting
