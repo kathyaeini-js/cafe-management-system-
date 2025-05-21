@@ -1,5 +1,5 @@
 # cafe-management-system-
-package sanjana;
+package kathyaeini;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
